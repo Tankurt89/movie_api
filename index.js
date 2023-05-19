@@ -3,7 +3,7 @@ const express = require('express'),
     fs = require('fs'),
     path = require('path'),
     app = express(), 
-    bodyParser = require('bodyParser'),
+    bodyParser = require('body-parser'),
     methodOverride = require('method-override');
 
 app.use(bodyParser.urlencoded({
