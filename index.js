@@ -1,11 +1,11 @@
 const express = require('express'),
     morgan = require('morgan'),
     fs = require('fs'),
-    path = require('path');
-const app = express(); 
-const bodyParser = require('bodyParser'),
+    path = require('path'),
+    app = express(), 
+    bodyParser = require('bodyParser'),
     methodOverride = require('method-override');
-    
+
 app.use(bodyParser.urlencoded({
     extend: true
 }));
