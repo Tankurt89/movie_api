@@ -2,16 +2,20 @@ import express from 'express';
 import morgan from 'morgan';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
-const app = express();
-import { urlencoded, json } from 'body-parser';
 import methodOverride from 'method-override';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import bodyParser from "body-parser";
 
-app.use(express.static(path.join(__dirname, 'public')));
+// const documentation = require('./movie_api/documentation')
+const app = express();
+const port = 8080
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(urlencoded({
-    extend: true
-}));
-app.use(json());
+app.use(express.static("public"));
+
+app.use(bodyParser.urlencoded({extend: true}));
+app.use(bodyParser.json());
 app.use(methodOverride());
 
 const accessLogStream = createWriteStream(join(__dirname, 'log.txt'), {flags: 'a'})
@@ -23,6 +27,10 @@ app.use(morgan('combined', {stream: accessLogStream}));
 app.get('/', (req, res) => {
     res.send('Hello and Welcome to my API for movies');
 });
+
+app.get('/documentation', (req, res) =>{
+    res.send(documentation);
+})
 
 app.get('/movies', (req, res) => {
     let topMovies = [
@@ -74,6 +82,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('An Error Ocurred')
 })
 
-app.listen(8080, () => {
+app.listen(port, () => {
     console.log('Your app is listening on port 8080.')
 })
