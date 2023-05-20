@@ -1,20 +1,21 @@
-const express = require('express'),
-    morgan = require('morgan'),
-    fs = require('fs'),
-    path = require('path'),
-    app = express(), 
-    bodyParser = require('body-parser'),
-    methodOverride = require('method-override');
+import express from 'express';
+import morgan from 'morgan';
+import { createWriteStream } from 'fs';
+import { join } from 'path';
+const app = express();
+import { urlencoded, json } from 'body-parser';
+import methodOverride from 'method-override';
 
-app.use(bodyParser.urlencoded({
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(urlencoded({
     extend: true
 }));
-app.use(bodyParser.json());
+app.use(json());
 app.use(methodOverride());
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
+const accessLogStream = createWriteStream(join(__dirname, 'log.txt'), {flags: 'a'})
 
-app.use(express.static('public'));
 app.use(morgan('common'));
 
 app.use(morgan('combined', {stream: accessLogStream}));
