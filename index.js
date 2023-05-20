@@ -1,13 +1,12 @@
 import express from 'express';
 import morgan from 'morgan';
 import { createWriteStream } from 'fs';
-import { join } from 'path';
+import path, { join } from 'path';
 import methodOverride from 'method-override';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from "body-parser";
 
-// const documentation = require('./movie_api/documentation')
 const app = express();
 const port = 8080
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -29,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/documentation', (req, res) =>{
-    res.send(documentation);
+    res.sendFile('public/documentation.html', {root: __dirname});
 })
 
 app.get('/movies', (req, res) => {
