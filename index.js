@@ -58,7 +58,7 @@ app.get('/movies', (req, res) => {
         release: 'January 19, 2001'},
     
         {title: 'Tombstone',
-        director: 'Geroge P. Cosmatos, Kevin Jarre',
+        director: 'George P. Cosmatos, Kevin Jarre',
         release: 'December 25, 1993'},
     
         {title: 'Three Amigos',
