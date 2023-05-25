@@ -7,7 +7,13 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from "body-parser";
 import { v4 as uuidv4 } from 'uuid';
+import mongoose from 'mongoose';
+import * as Models from './models.js';
 
+mongoose.connect('mongodb://127.0.0.1:27017/[movieDB]', {useNewUrlParser: true, useUnifiedTopology: true});
+
+const Movies = Models.Movie;
+const Users = Models.User;
 const app = express();
 const port = 8080;
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -195,20 +201,29 @@ app.get('/users', (req, res) => {
 
 
 app.post('/users', (req, res) => {
-    let newUser = req.body;
-
-    if (!newUser.name) {
-        const message = 'Missing Name in request body';
-        res.status(400).send(message);
-    }else {
-        let newNewUser = {
-            id: uuidv4(),
-            name: newUser.name,
-            favoriteMovie: [],
-        };
-        users.push(newNewUser);
-        res.status(201).send(newNewUser);
-    }
+    Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+        if (user) {
+            return res.status(400).send(req.body.Username + 'already exists');
+        } else {
+        Users
+            .create({
+                Username: req.body.Username,
+                Password: req.body.Password,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday
+            })
+            .then((user) => {res.status(201).json(user)})
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+        });
+    }  
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+    });
 });
 
 app.put('/users/:id', (req, res) => {
