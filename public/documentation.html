@@ -20,17 +20,19 @@
             <br>
             Get:'/movies/directors/:directorName' returns the director, their birth/death year, and their bio.
             <br>
+            Get:'/users/:Username' returns a specific user
+            <br>
             Get:'/users' returns a list of users, id, name, favorite movies.
             <br>
-            POST: '/users/' -- creates user -- request body requires field newUser
+            POST: '/users' -- creates user -- request body requires field newUser
             <br>
-            Put:'/users/:id'  -- username change -- request body requires field userId
+            Put:'/users/:Username'  -- username change -- request body requires field userId
             <br>
-            DELETE: '/users/{userId}' --deletes user by user id
+            DELETE: '/users/:Username' --deletes user by user id
             <br>
             POST: '/users/movies' -- adds a movie to user favorite list -- requires body field movieTitle
             <br>
-            DELETE: '/users/{userId}/{movieTitle}' --deletes favorite movie off user profile
+            DELETE: '/users/:Username/movies/:MovieID' --deletes favorite movie off user profile
        </p>
     </div>
 </body>
