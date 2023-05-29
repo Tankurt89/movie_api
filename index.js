@@ -153,7 +153,7 @@ app.get('/', (req, res) => {
     res.send('Hello and Welcome to my API for movies');
 });
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.send('Please make sure you post to login');
 });
 
