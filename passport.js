@@ -11,7 +11,7 @@ passport.use(new LocalStrategy( { usernameField: 'Username', passwordField: 'Pas
     console.log("New attempt: " + username + ' ' + password);
     Users.findOne({Username: username}).then( (user) => {
         if (!user) { return done(null, false); }
-        if (password != user.Password) {return done(null, false);}
+        if (!user.validatePassword(password)) {return done(null, false);}
         return done(null, user);
     }).catch( (err) => {
         return done(err);

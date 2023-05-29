@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
 import * as Models from './models.js';
+import {check, validationResult} from 'express-validator';
 
 mongoose.connect('mongodb://127.0.0.1:27017/[movieDB]', {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -118,30 +119,24 @@ let movies = [
     release: 'January 21, 2000'},
 ];    
 
-let users = [
-    { 
-        id: uuidv4(),
-        name: 'Musah',
-        favoriteMovie: []
-    },
-    {
-        id: uuidv4(),
-        name: 'Zach',
-        favoriteMovie: []
-    },
-    {
-        id: 4569,
-        // id: uuidv4(),
-        name: 'Seager',
-        favoriteMovie: []
-    },
-];
-
 app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
+
+import cors from 'cors';
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+app.use(cors({
+    origin: (origin, callback) => {
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(origin) === -1 ){
+            let message = 'The CORS policy for this application does not allow access from origin' + origin;
+            return callback(new Error(message), false);
+        }
+    }
+}))
+
 import { auths } from './auth.js';
 import passport from 'passport';
 import ('./passport.js');
@@ -226,7 +221,17 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false}), (req
     });
 });
 //add a new user and adds them to the user list
-app.post('/users', (req, res) => {
+app.post('/users', [
+    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(422).json({ errors: errors.array()});
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password)
     Users.findOne({ Username: req.body.Username })
     .then((user) => {
         if (user) {
@@ -235,7 +240,7 @@ app.post('/users', (req, res) => {
         Users
             .create({
                 Username: req.body.Username,
-                Password: req.body.Password,
+                Password: hashedPassword,
                 Email: req.body.Email,
                 Birthday: req.body.Birthday
             })
