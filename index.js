@@ -11,7 +11,8 @@ import mongoose from 'mongoose';
 import * as Models from './models.js';
 import {check, validationResult} from 'express-validator';
 
-mongoose.connect('mongodb://127.0.0.1:27017/[movieDB]', {useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect('mongodb://127.0.0.1:27017/[movieDB]', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('process.env.CONNECTION_URI', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -335,4 +336,5 @@ let Port = process.env.PORT || 8080;
 app.listen(Port, '0.0.0.0',() => {
     console.log('Listening on Port' + port)
 });
+
 
