@@ -209,6 +209,7 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false}), (req
         res.status(500).send('Error: ' + err);
     });
 });
+
 //add a new user and adds them to the user list
 app.post('/users', [
     check('Username', 'Username is required').isLength({min: 5}),
@@ -245,6 +246,7 @@ app.post('/users', [
         res.status(500).send('Error: ' + error);
     });
 });
+
 //update username
 app.put('/users/:Username',  passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username },
@@ -329,7 +331,8 @@ app.use((err, req, res, next) => {
     res.status(500).send('An Error Ocurred')
 });
 
-app.listen(port, () => {
-    console.log('Your app is listening on port 8080.')
+let Port = process.env.PORT || 8080; 
+app.listen(Port, '0.0.0.0',() => {
+    console.log('Listening on Port' + port)
 });
 
