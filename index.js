@@ -12,7 +12,7 @@ import * as Models from './models.js';
 import {check, validationResult} from 'express-validator';
 
 // mongoose.connect('mongodb://127.0.0.1:27017/[movieDB]', {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect('process.env.CONNECTION_URI', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 const Movies = Models.Movie;
 const Users = Models.User;
