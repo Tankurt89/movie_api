@@ -24,6 +24,14 @@ let userSchema = mongoose.Schema({
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
 });
 
+userSchema.methods.toJson = function () {
+    let obj = this.toObject()/
+    delete obj.Password;
+    delete obj.Email;
+    delete obj.Birthday;
+    return obj;
+}
+
 userSchema.statics.hashPassword = (password) => {
     return bcrypt.hashSync(password, 10);
 };

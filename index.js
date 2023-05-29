@@ -288,10 +288,10 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
     });
 })    
 //delete a user by their username
-app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username })
-      .then((user) => {
-        if (!user) {
+app.delete('/users/:Username/:Email', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Users.findOneAndRemove({ Username: req.params.Username, Email: req.params.Email})
+    .then((user) => {
+        if (user != user) {
           res.status(400).send(req.params.Username + ' was not found');
         } else {
           res.status(200).send(req.params.Username + ' was deleted.');
