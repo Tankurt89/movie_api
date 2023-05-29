@@ -17,7 +17,6 @@ mongoose.connect('process.env.CONNECTION_URI', {useNewUrlParser: true, useUnifie
 const Movies = Models.Movie;
 const Users = Models.User;
 const app = express();
-const port = 8080;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 let movies = [
@@ -334,7 +333,7 @@ app.use((err, req, res, next) => {
 
 let Port = process.env.PORT || 8080; 
 app.listen(Port, '0.0.0.0',() => {
-    console.log('Listening on Port' + port)
+    console.log('Listening on Port' + Port)
 });
 
 
