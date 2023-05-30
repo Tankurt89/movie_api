@@ -24,7 +24,7 @@ const maskJSONOptions = {
     fields: ['Password', '_id', 'Birthday', 'Email']
 }
 
-let maskedObj = MaskData.maskJSONFields(Users, maskJSONOptions);
+
 
 let movies = [
     { title: 'Star Wars: Episode IV - A New Hope',
@@ -172,7 +172,8 @@ app.get('/documentation', (req, res) =>{
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.find()
       .then((user) => {
-        res.status(201).json(user.maskedObj);
+        let maskUsers = MaskData.maskJSONFields(user, maskJSONOptions);
+        res.status(201).MaskData.maskJSONFields(maskUsers);
       })
       .catch((err) => {
         console.error(err);
