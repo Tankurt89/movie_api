@@ -10,7 +10,6 @@ let generateJWTToken = (user) => {
         algorithm: 'HS256' })
 }
 
-
 let auths = (router) => {
         router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
             let token = generateJWTToken(req.user.toJSON());
