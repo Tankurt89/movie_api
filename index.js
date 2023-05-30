@@ -161,6 +161,18 @@ app.get('/login', (req, res) => {
 app.get('/documentation', (req, res) =>{
     res.sendFile('public/documentation.html', {root: __dirname});
 });
+
+app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Users.find()
+      .then((users) => {
+        res.status(201).json(users, hide(Email, Password, Birthday));
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+});
+
 //returns a list of all the movies for users
 app.get('/movies', passport.authenticate('jwt', {session: false, failureRedirect: "/login" }), (req, res) => {
     Movies.find()
@@ -215,6 +227,16 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false}), (req
     });
 });
 
+app.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Users.findByToken(token) 
+    .then((user) => {
+        res.json(user);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('')
+    })
+})
 //add a new user and adds them to the user list
 app.post('/users', [
     check('Username', 'Username is required').isLength({min: 5}),
