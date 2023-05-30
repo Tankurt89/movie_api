@@ -172,7 +172,7 @@ app.get('/documentation', (req, res) =>{
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.find()
       .then((user) => {
-        res.status(201).json(maskedObj);
+        res.status(201).json(user.maskedObj);
       })
       .catch((err) => {
         console.error(err);
