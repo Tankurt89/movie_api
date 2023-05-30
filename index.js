@@ -168,13 +168,13 @@ app.get('/login', (req, res) => {
 app.get('/documentation', (req, res) =>{
     res.sendFile('public/documentation.html', {root: __dirname});
 });
-console.log('high mom')
+
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.find()
       .then((user) => {
         let maskUsers = MaskData.maskJSONFields(user, maskJSONOptions);
-        console.log('high mom')
-        console.log(maskUsers);
+        console.log('hi mom');
+        console.log(maskJSONOptions);
         res.status(201).json(maskUsers);
       })
       .catch((err) => {
