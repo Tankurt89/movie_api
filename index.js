@@ -21,7 +21,7 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const maskJSONOptions = {
     maskWith: "*",
-    fields: ['Password', '_id', 'Birthday', 'Email']
+    fields: ['[*].Password', '_id', 'Birthday', 'Email']
 }
 
 
@@ -237,16 +237,6 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false}), (req
     });
 });
 
-app.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Users.findByToken(token) 
-    .then((user) => {
-        res.json(user);
-    })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send('')
-    })
-})
 //add a new user and adds them to the user list
 app.post('/users', [
     check('Username', 'Username is required').isLength({min: 5}),
