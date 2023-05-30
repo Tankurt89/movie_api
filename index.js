@@ -173,6 +173,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => 
     Users.find()
       .then((user) => {
         let maskUsers = MaskData.maskJSONFields(user, maskJSONOptions);
+        console.log(maskUsers);
         res.status(201).json(maskUsers);
       })
       .catch((err) => {
