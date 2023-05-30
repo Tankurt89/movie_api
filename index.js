@@ -21,7 +21,7 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const maskJSONOptions = {
     maskWith: "*",
-    fields: ['[*].Password', '_id', 'Birthday', 'Email']
+    fields: [Users.Password, Users._id, Users.Birthday, Users.Email]
 }
 
 
