@@ -170,7 +170,7 @@ app.get('/documentation', (req, res) =>{
 });
 
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Users.find()
+    Users.getAll()
       .then((user) => {
         let maskUsers = [];
         for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(user[i], maskJSONOptions);}
