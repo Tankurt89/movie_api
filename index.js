@@ -21,7 +21,7 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const maskJSONOptions = {
     maskWith: "*",
-    fields: [Users.Password, Users._id, Users.Birthday, Users.Email]
+    fields: ['Password', '_id', 'Birthday', 'Email']
 }
 
 
@@ -172,9 +172,10 @@ app.get('/documentation', (req, res) =>{
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.find()
       .then((user) => {
-        let maskUsers = MaskData.maskJSONFields(user, maskJSONOptions);
+        let maskUsers = [];
+        for (i=0; i<Users.length; i++) {maskedUsers[i] = MaskData.maskJSONFields(user[i], maskJSONoptions);}
         console.log('hi mom');
-        console.log(maskJSONOptions);
+        console.log(maskUsers);
         res.status(201).json(maskUsers);
       })
       .catch((err) => {
