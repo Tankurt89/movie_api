@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
 import * as Models from './models.js';
 import {check, validationResult} from 'express-validator';
+import MaskData from 'maskdata';
 
 // mongoose.connect('mongodb://127.0.0.1:27017/[movieDB]', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -18,6 +19,11 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const maskJSONOptions = {
+    maskWith: "*",
+    fields: ['Password', '_id', 'Birthday', 'Email']
+}
+
 
 let movies = [
     { title: 'Star Wars: Episode IV - A New Hope',
@@ -165,7 +171,7 @@ app.get('/documentation', (req, res) =>{
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.find()
       .then((users) => {
-        res.status(201).json(users, hide(Email, Password, Birthday));
+        res.status(201).json(users, maskJSONOptions);
       })
       .catch((err) => {
         console.error(err);
