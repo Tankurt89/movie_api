@@ -169,7 +169,7 @@ app.get('/documentation', (req, res) =>{
     res.sendFile('public/documentation.html', {root: __dirname});
 });
 
-app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/users', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.find()
       .then((Users) => {
         let maskUsers = [];
@@ -196,7 +196,7 @@ app.get('/movies', passport.authenticate('jwt', {session: false, failureRedirect
     });
 });
 //returns a specific movie based on the title
-app.get('/movies/:title', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies/:title', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Movies.findOne({ Title: req.params.title })
     .then((movies) => {
       res.status(200).json(movies);
@@ -207,7 +207,7 @@ app.get('/movies/:title', passport.authenticate('jwt', {session: false}), (req, 
     });
 });
 //returns all movies with a specific genre name
-app.get('/movies/genres/:genreName', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies/genres/:genreName', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Movies.find({ 'Genre.Name': req.params.genreName })
         .then((movies) => {
             res.status(200).json(movies);
@@ -217,7 +217,7 @@ app.get('/movies/genres/:genreName', passport.authenticate('jwt', {session: fals
         });
 });
 //return a list of movies by a specific director
-app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Movies.find({ 'Director.Name': req.params.directorName })
     .then((movies) => {
       res.status(200).json(movies);
@@ -227,7 +227,7 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session
     });
 });
 //returns a specific user
-app.get('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/users/:Username', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOne({ Username: req.params.Username})
     .then((user) => {
         res.json(user);
@@ -276,7 +276,7 @@ app.post('/users', [
 });
 
 //update username
-app.put('/users/:Username',  passport.authenticate('jwt', {session: false}), (req, res) => {
+app.put('/users/:Username',  passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username },
       { $set: 
         {
@@ -300,7 +300,7 @@ app.put('/users/:Username',  passport.authenticate('jwt', {session: false}), (re
   });
 })
 //updates the users favorite movie list
-app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username },{
         $addToSet: { FavoriteMovies: req.params.MovieID }
         },
@@ -318,7 +318,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
     });
 })    
 //delete a user by their username
-app.delete('/users/:Username/:Email', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.delete('/users/:Username/:Email', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOneAndRemove({ Username: req.params.Username, Email: req.params.Email})
     .then((user) => {
         if (user != user) {
@@ -334,7 +334,7 @@ app.delete('/users/:Username/:Email', passport.authenticate('jwt', {session: fal
 });
 
 //remove a movie from users fav
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
 	Users.findOneAndUpdate(
 		{ Username: req.params.Username },
 		{
