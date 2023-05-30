@@ -174,8 +174,6 @@ app.get('/users', passport.authenticate('jwt', {session: false, failureRedirect:
       .then((Users) => {
         let maskUsers = [];
         for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(Users[i], maskJSONOptions);}
-        console.log('hi mom');
-        console.log(maskUsers);
         res.status(201).json(maskUsers);
       })
       .catch((err) => {
