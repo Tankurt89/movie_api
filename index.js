@@ -125,13 +125,15 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session
 //returns a specific user
 app.get('/users/:Username', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOne({ Username: req.params.Username})
-    .then((user) => {
-        res.json(user);
-    })
-    .catch((err) => {
+      .then((Users) => {
+        let maskUsers = [];
+        for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(Users[i], maskJSONOptions);}
+        res.status(201).json(maskUsers);
+      })
+      .catch((err) => {
         console.error(err);
         res.status(500).send('Error: ' + err);
-    });
+      });
 });
 
 //add a new user and adds them to the user list
