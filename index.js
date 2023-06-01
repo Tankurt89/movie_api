@@ -218,14 +218,10 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
 })    
 //delete a user by their username
 app.delete('/users/:Username/:Email', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res, next) => {
-    let token = req.headers.authorization || req.query['jwt'];
-    if (!token) return res.status(401).json({success: false, msg: 'Token does not match'});
-    jwt.verify(token, 'secret', (err, decoded) =>{
-        if (err) return res.status(401).json({success: false, msg: 'Token does not match'});
-        req.user = decoded;
-        next();
-    })
-    Users.findOneAndRemove({_id: req.params.id, user: req.user})
+    if (_id === _id){
+        return res.status(400).send('Error: Id does not match.');
+    }else{
+        Users.findOneAndRemove({Username: req.params.Username})
     .then((user) => {
         if (user != user) {
           res.status(400).send(req.params.Username + ' was not found');
@@ -237,6 +233,7 @@ app.delete('/users/:Username/:Email', passport.authenticate('jwt', {session: fal
         console.error(err);
         res.status(500).send('Error: ' + err);
       });
+    }
 });
 
 //remove a movie from users fav
