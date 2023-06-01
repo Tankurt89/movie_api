@@ -217,7 +217,14 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
 })    
 //delete a user by their username
 app.delete('/users/:Username/:Email', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username, Email: req.params.Email})
+    let token = req.headers.authorization || req.query['access-token'];
+    if (!token) return res.status(401).json({success: false, msg: 'Token does not match'});
+    jwt.verify(token, 'secret', (err, decoded) =>{
+        if (err) return res.status(401).json({success: false, msg: 'Token does not match'});
+        req.user = decoded;
+        next();
+    })
+    Users.findOneAndRemove({_id: req.params.id, user: req.user})
     .then((user) => {
         if (user != user) {
           res.status(400).send(req.params.Username + ' was not found');
