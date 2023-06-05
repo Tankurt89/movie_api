@@ -22,7 +22,7 @@ passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'your_jwt_secret'
 }, (jwtPayload, done) => { //jwtPayload contains decrypted contents of Authorization: bearer <token>
-    console.log(jwtPayload)
+    console.log(jwtPayload);
     Users.findById(jwtPayload._id).then((user) => {
         if (!user) {return done(null, false)}; // if user does not exist, do not authorize
         if (jwtPayload.exp < Date.now()/1000 ){return done(null, false)}; //if token is expired decline authorization.
