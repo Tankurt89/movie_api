@@ -217,8 +217,8 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
     });
 })    
 //delete a user by their username
-app.delete('/users/:Username', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res, next) => {
-  Users.findOneAndRemove({ _id: req.user._id}
+app.delete('/users/:Username', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
+  Users.findOneAndRemove({ _id: req.user._id}),
   .then((user) => {
         if (user != user) {
           res.status(400).send(req.params.Username + ' was not found');
@@ -229,7 +229,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', {session: false, fai
       .catch((err) => {
         console.error(err);
         res.status(500).send('Error: ' + err);
-      }));
+      });
 });
 
 //remove a movie from users fav
