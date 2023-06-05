@@ -33,7 +33,7 @@ app.use(methodOverride());
 
 import cors from 'cors';
 
-let allowedOrigins = ['http://localhost:1234']
+let allowedOrigins = ['http://127.0.0.1:1234']
 
 app.use(cors({
     origin: (origin, callback) => {
