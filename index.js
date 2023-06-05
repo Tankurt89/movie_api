@@ -32,18 +32,18 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 import cors from 'cors';
+app.use(cors());
+// let allowedOrigins = ['http://localhost:1234']
 
-let allowedOrigins = ['http://127.0.0.1:1234']
-
-app.use(cors({
-    origin: (origin, callback) => {
-        if(!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(origin) === -1 ){
-            let message = 'The CORS policy for this application does not allow access from origin' + origin;
-            return callback(new Error(message), false);
-        }
-    }
-}))
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if(!origin) return callback(null, true);
+//         if(allowedOrigins.indexOf(origin) === -1 ){
+//             let message = 'The CORS policy for this application does not allow access from origin' + origin;
+//             return callback(new Error(message), false);
+//         }
+//     }
+// }))
 
 import { auths } from './auth.js';
 import passport from 'passport';
