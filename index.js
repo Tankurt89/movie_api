@@ -200,7 +200,6 @@ app.put('/users/:Username',  passport.authenticate('jwt', {session: false, failu
 })
 //updates the users favorite movie list
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
-  console.log(req.user)
     Users.findOneAndUpdate({ Username: req.user.Username },{
         $addToSet: { FavoriteMovies: req.params.MovieID }
         },
@@ -219,9 +218,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
 })    
 //delete a user by their username
 app.delete('/users/:Username', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res, next) => {
-  Users.findOneAndRemove({ _id: new ObjectID(req.params.id),
-    userID: req.user._id,
-  }
+  Users.findOneAndRemove({ _id: req.user._id}
   .then((user) => {
         if (user != user) {
           res.status(400).send(req.params.Username + ' was not found');
