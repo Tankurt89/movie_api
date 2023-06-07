@@ -11,24 +11,12 @@ let generateJWTToken = (user) => {
 }
 
 let auths = (router) => {
-    router.post('/login', (req, res) => {
-        passport.authenticate('local', { session: false }, (error, user, info) => {
-            console.log(error);
-          if (error || !user) {
-            return res.status(400).json({
-              message: 'Something is not right',
-              user: user
-            });
-          }
-          req.login(user, { session: false }, (error) => {
-            if (error) {
-              res.send(error);
-            }
-            let token = generateJWTToken(user.toJSON());
-            return res.json({user, token});
-          });
-        })(req, res);
-      });
+        router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
+            let token = generateJWTToken(req.user.toJSON());
+            console.log(token); // currently in here for testing. token will be stored client side
+            let reply = { username: req.user.Username, token: token };
+            res.status(200).json(reply);
+        });
     }
 
 export {auths}
