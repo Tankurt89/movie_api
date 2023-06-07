@@ -1,6 +1,7 @@
 import jwt from  'jsonwebtoken';
 import passport from 'passport';
 import * as router from './passport.js';
+import ("./passport.js")
 
 let jwtSecret = 'your_jwt_secret';
 let generateJWTToken = (user) => {
@@ -11,9 +12,9 @@ let generateJWTToken = (user) => {
 }
 
 let auths = (router) => {
-        router.post('/login', 
+        router.post('/login',
          passport.authenticate('local', { session: false }), (req, res) => {
-            let token = generateJWTToken(req.user.toJSON());
+            let token = generateJWTToken(user.toJSON());
             let reply = { username: req.user.Username, token: token };
             res.status(200).json(reply);
         });
