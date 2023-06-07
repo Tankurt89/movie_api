@@ -13,7 +13,6 @@ let generateJWTToken = (user) => {
 let auths = (router) => {
         router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
             let token = generateJWTToken(req.user.toJSON());
-            console.log(token); // currently in here for testing. token will be stored client side
             let reply = { username: req.user.Username, token: token };
             res.status(200).json(reply);
         });
