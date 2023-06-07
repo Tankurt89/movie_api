@@ -1,5 +1,5 @@
 import passport from 'passport';
-import LocalStrategy from 'passport-local';
+import {Strategy as LocalStrategy} from 'passport-local';
 import * as Models from './models.js';
 import passportJWT from 'passport-jwt';
 
@@ -11,7 +11,7 @@ ExtractJWT = passportJWT.ExtractJwt;
 passport.use(new LocalStrategy( 
     { usernameField: 'Username', passwordField: 'Password' }, (username, password, done) => {
     console.log("New attempt: " + username + ' ' + password);
-    Users.findOne({Username: username}).then( (user) => {
+    Users.findOne({Username: username}).then((user) => {
         // if (!user) { return done(null, false); }
         if (!user.validatePassword(password)) {return done(null, false);}
         return done(null, user);
