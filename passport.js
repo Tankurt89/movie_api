@@ -1,5 +1,5 @@
 import passport from 'passport';
-import LocalStrategy from ('passport-local').Strategy;
+import LocalStrategy from 'passport-local';
 import * as Models from './models.js';
 import passportJWT from 'passport-jwt';
 
