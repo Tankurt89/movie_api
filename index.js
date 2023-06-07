@@ -84,7 +84,7 @@ app.get('/users', passport.authenticate('jwt', {session: false, failureRedirect:
 });
 
 //returns a list of all the movies for users
-app.get('/movies', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
+app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.find()
     .then((movies) => {
       res.status(200).json(movies);
