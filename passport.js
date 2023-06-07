@@ -1,5 +1,5 @@
 import passport from 'passport';
-import {Strategy as LocalStrategy} from 'passport-local';
+import LocalStrategy from 'passport-local';
 import * as Models from './models.js';
 import passportJWT from 'passport-jwt';
 
