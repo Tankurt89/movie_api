@@ -7,10 +7,12 @@ import passportJWT from 'passport-jwt';
 let Users = Models.User,
 JWTStrategy = passportJWT.Strategy,
 ExtractJWT = passportJWT.ExtractJwt;
-passport.use(new LocalStrategy( { usernameField: 'Username', passwordField: 'Password' }, (username, password, done) => {
+
+passport.use(new LocalStrategy( 
+    { usernameField: 'Username', passwordField: 'Password' }, (username, password, done) => {
     console.log("New attempt: " + username + ' ' + password);
     Users.findOne({Username: username}).then( (user) => {
-        if (!user) { return done(null, false); }
+        // if (!user) { return done(null, false); }
         if (!user.validatePassword(password)) {return done(null, false);}
         return done(null, user);
     }).catch( (err) => {
@@ -23,7 +25,7 @@ passport.use(new JWTStrategy({
     secretOrKey: 'your_jwt_secret'
 }, (jwtPayload, done) => { //jwtPayload contains decrypted contents of Authorization: bearer <token>
     console.log(jwtPayload);
-    Users.findById(jwtPayload._id).then((user) => {
+    return Users.findById(jwtPayload._id).then((user) => {
         if (!user) {return done(null, false)}; // if user does not exist, do not authorize
         if (jwtPayload.exp < Date.now()/1000 ){return done(null, false)}; //if token is expired decline authorization.
         return done(null, user); // (success) populate req.user in express
