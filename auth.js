@@ -14,7 +14,7 @@ let generateJWTToken = (user) => {
 let auths = (router) => {
         router.post('/login',
          passport.authenticate('local', { session: false }), (req, res) => {
-            let token = generateJWTToken(user.toJSON());
+            let token = generateJWTToken(req.user.toJSON());
             let reply = { username: req.user.Username, token: token };
             res.status(200).json(reply);
         });
