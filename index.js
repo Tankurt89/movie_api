@@ -177,7 +177,7 @@ app.post('/users', [
 });
 
 //update username
-app.put('/users/:Username',  passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
+app.put('/users',  passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username },
       { $set: 
         {
