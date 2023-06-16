@@ -129,8 +129,8 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session
 app.get('/users/:Username', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOne({ Username: req.params.Username})
       .then((Users) => {
-        let maskUsers = [];
-        for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(Users[i], maskJSONOptions);}
+        // let maskUsers = [];
+        // for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(Users[i], maskJSONOptions);}
         res.status(201).json(maskUsers);
       })
       .catch((err) => {
