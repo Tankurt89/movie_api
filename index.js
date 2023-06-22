@@ -73,8 +73,8 @@ app.get('/documentation', (req, res) =>{
 app.get('/users', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.find()
       .then((Users) => {
-        // let maskUsers = [];
-        // for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(Users[i], maskJSONOptions);}
+        let maskUsers = [];
+        for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(Users[i], maskJSONOptions);}
         res.status(201).json(Users);
       })
       .catch((err) => {
@@ -131,7 +131,7 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false, failur
       .then((Users) => {
         // let maskUsers = [];
         // for (let i=0; i<Users.length; i++) {maskUsers[i] = MaskData.maskJSONFields(Users[i], maskJSONOptions);}
-        res.status(201).json(maskUsers);
+        res.status(201).json(Users);
       })
       .catch((err) => {
         console.error(err);
