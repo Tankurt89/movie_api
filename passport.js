@@ -12,7 +12,7 @@ ExtractJWT = passportJWT.ExtractJwt;
 passport.use(new LocalStrategy( 
     { usernameField: 'Username', passwordField: 'Password' }, (username, password, done) => {
     console.log("New attempt: " + username + ' ' + password);
-    Users.findOne({Username: username}).then((user) => {
+    Users.findOne({_id: _id}).then((user) => {
         // if (!user) { return done(null, false); }
         if (!user.validatePassword(password)) {return done(null, false);}
         return done(null, user);
