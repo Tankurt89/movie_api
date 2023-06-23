@@ -6,7 +6,7 @@ import ("./passport.js")
 let jwtSecret = 'your_jwt_secret';
 let generateJWTToken = (user) => {
     return jwt.sign(user, jwtSecret, {
-        subject: user.Username,
+        subject: user._id,
         expiresIn: '7d',
         algorithm: 'HS256' })
 }
