@@ -200,7 +200,7 @@ app.put('/users/:Username',  passport.authenticate('jwt', {session: false, failu
   });
 })
 //updates the users favorite movie list
-app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.user.Username },{
         $addToSet: { FavoriteMovies: req.params.MovieID }
         },
