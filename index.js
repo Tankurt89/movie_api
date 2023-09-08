@@ -182,7 +182,7 @@ app.put('/users/:Username',  passport.authenticate('jwt', {session: false, failu
       { $set: 
         {
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
         }
       },
