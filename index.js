@@ -88,6 +88,7 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
 
 /**
  * returns a movie based on a specific title
+ * @param {title}
  */
 app.get('/movies/:title', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Movies.findOne({ Title: req.params.title })
@@ -102,6 +103,7 @@ app.get('/movies/:title', passport.authenticate('jwt', {session: false, failureR
 
 /**
  * Returns all movies with a specific genre name
+ * @param {genreName}
  */
 app.get('/movies/genres/:genreName', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Movies.find({ 'Genre.Name': req.params.genreName })
@@ -115,6 +117,7 @@ app.get('/movies/genres/:genreName', passport.authenticate('jwt', {session: fals
 
 /**
  * Returns a list of movies based on the director's name
+ * @param {directorName}
  */
 app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Movies.find({ 'Director.Name': req.params.directorName })
@@ -128,6 +131,7 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', {session
 
 /**
  * Returns a specific user
+ * @param {Username}
  */
 app.get('/users/:Username', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), (req, res) => {
     Users.findOne({ Username: req.params.Username})
@@ -144,6 +148,9 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false, failur
 
 /**
  * Allows a new user to be registered into the api
+ * @param {Username}
+ * @param {Password}
+ * @param {Email} 
  */
 app.post('/users', [
     check('Username', 'Username is required').isLength({min: 5}),
