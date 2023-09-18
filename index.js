@@ -150,7 +150,7 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false, failur
  * Allows a new user to be registered into the api
  * @param {Username}
  * @param {Password}
- * @param {Email} 
+ * @param {Email}
  */
 app.post('/users', [
     check('Username', 'Username is required').isLength({min: 5}),
